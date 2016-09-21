@@ -4,12 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var util = require('util');
+var settings = require('./settings');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/test');
 
 var routes = require('./routes/index');
-
-
 var app = express();
 
 // view engine setup
@@ -25,6 +28,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+/*app.use(session({
+  secret : settings.cookieSecret,
+  key : 'cookie_name',
+  cookie :  { maxAge : 1000*60*60*24*30 },
+  store : 'MongoStore',
+      /!*new MongoStore({
+    url : 'mongodb://localhost/test'
+  }),*!/
+  resave : true,
+  saveUninitialized : true
+}));*/
 
 //routes set
 /*

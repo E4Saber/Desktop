@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');  //生成散列
 //用户对象
-var User = require('/models/user.js');
+var User = require('./../models/user.js');
 /* GET home page. */
 
 router.get('/', function (req, res, next) {
@@ -10,6 +10,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/reg', function (req, res) {
+  console.log('reg_000000000000');
   res.render('reg', {
     title : 'Register'
   });
@@ -24,7 +25,45 @@ router.get('/u/:user', function (req, res) {
 });
 
 router.post('/reg', function(req, res) {
-  //输入检查
+
+  var errmessage = '';
+  if (req.body['password-repeat'] != req.body['password']) {
+    errmessage = 'Error  happened';
+    console.log(errmessage + "密码不一致");
+    res.render('error', {
+      title : 'ERROR',
+      err : errmessage
+    });
+  }
+
+  var b = req.body;
+  var _user = {
+    username : b.username,
+    password : b.password
+  };
+
+  var user = new User(_user);
+  console.log('页面得到的对象：' + user);
+
+  /****** ERROR ********/
+  var _es = user.get(user);
+  console.log('获取到的 user 对象 ： ' + _es);
+  /**************/
+
+  user.save(function (err, user) {
+    console.log('save__**************');
+    if (err) {
+      console.log(err);
+      return ;
+    }
+
+    console.log('register successfully');
+    res.send('register successfully');
+  });
+
+
+
+/*  //输入检查
   if (req.body['password-repeat'] != req.body['password']) {
     req.flash('error', '两次输入的密码不一致');
     return res.redirect('/reg');
@@ -57,7 +96,7 @@ router.post('/reg', function(req, res) {
       req.flash('success', '注册成功');
       res.redirect('/');
     });
-  })
+  })*/
 });
 
 router.get('/login', function (req, res) {

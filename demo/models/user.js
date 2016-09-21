@@ -1,7 +1,17 @@
 //user object
 
-var mongodb = require('./db');
+//var mongodb = require('./../db');
 
+var mongoose = require('mongoose');
+
+var UserSchema = require('./../schemas/users');
+
+var User = mongoose.model('User', UserSchema);
+
+module.exports = User;
+
+
+/*
 function User(user) {
     this.name = user.name;
     this.password = user.password;
@@ -64,4 +74,4 @@ User.get = function get (username, callback) {
           });
       });
   });
-};
+};*/
