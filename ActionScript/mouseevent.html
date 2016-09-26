@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鼠标监听</title>
+    <script type="text/javascript" src="lufylegend/lufylegend-1.10.1.js"></script>
+    <script type="text/javascript">
+        init(50, 'fir_div', 300, 300, main);
+        function main() {
+            var layer = new LSprite();
+            // 参数含义 边框线 边线颜色 rect 内容填充
+            layer.graphics.drawRect(10, '#cc0000', [0,0,300,300], true, '#cccccc');
+            addChild(layer);
+            field = new LTextField();
+            field.text = 'Wait Click';
+            layer.addChild(field);
+            layer.addEventListener(LMouseEvent.MOUSE_DOWN, downshow);
+            layer.addEventListener(LMouseEvent.MOUSE_UP, upshow);
+        }
+        function downshow(event) {
+            field.text = 'Mouse Down';
+        }
+        function upshow() {
+            field.text = 'Mouse Up';
+        }
+    </script>
+</head>
+<body>
+<div id="fir_div"></div>
+
+
+</body>
+</html>

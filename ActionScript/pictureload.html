@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片的加载与显示</title>
+    <script type="text/javascript" src="lufylegend/lufylegend-1.10.1.js"></script>
+    <script type="text/javascript">
+        // 初始化
+        init(50, 'fir_div', 500, 350, main);
+        function main() {
+            loader = new LLoader();
+            loader.addEventListener(LEvent.COMPLETE, loadBitmapdata);
+            loader.load('image/b.jpg', 'bitmapData');
+        }
+        function loadBitmapdata(event) {
+            var bitmapdata = new LBitmapData(loader.content);
+            var bitmap = new LBitmap(bitmapdata);
+            //加入层
+            var layer = new LSprite();
+            //this.addChild();  ???????
+            addChild(layer);
+            layer.addChild(bitmap);
+
+        }
+    </script>
+</head>
+<body>
+<div id="fir_div">loading.........</div>
+
+
+</body>
+</html>

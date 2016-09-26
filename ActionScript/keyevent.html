@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>键盘事件</title>
+    <script type="text/javascript" src="lufylegend/lufylegend-1.10.1.js"></script>
+    <script type="text/javascript">
+        init(50, 'fir_div', 300,300, main);
+        function main() {
+            var layer = new LSprite();
+            layer.graphics.drawRect(1, '#cc0000', [0,0,300,300], true, '#cccccc');
+            addChild(layer);
+            field = new LTextField();
+            field.text = 'Wait Click';
+            layer.addChild(field);
+            //键盘事件
+            LEvent.addEventListener(LGlobal.window, LKeyboardEvent.KEY_DOWN, downshow);
+            LEvent.addEventListener(LGlobal.window, LKeyboardEvent.KEY_UP, upshow);
+        }
+        function downshow() {
+            field.text = event.keyCode + 'Down!';
+        }
+        function upshow() {
+            field.text = event.keyCode + 'Up!';
+        }
+    </script>
+</head>
+<body>
+<div id="fir_div"></div>
+</body>
+</html>

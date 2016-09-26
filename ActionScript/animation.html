@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画加载</title>
+    <script type="text/javascript" src="lufylegend/lufylegend-1.10.1.js"></script>
+    <script type="text/javascript">
+        //第一行的循环播放
+        init(150, 'fir_div', 100,100, main);
+        function main() {
+            loader = new LLoader();
+            loader.addEventListener(LEvent.COMPLETE, loadBitmapdata);
+            loader.load('image/chara.png', 'bitmapData');
+        }
+        function loadBitmapdata(event) {
+            //图片的显示范围
+            var bitmapdata = new LBitmapData(loader.content, 0,0,64,64);
+            //图片的 宽度，高度，行，列
+            var list = LGlobal.divideCoordinate(256,256,4,4);
+            layer = new LSprite();
+            addChild(layer);
+            anime = new LAnimation(layer,bitmapdata,list);
+            layer.addEventListener(LEvent.ENTER_FRAME, onframe);
+        }
+        function onframe() {
+            //LAnimation 类的onframe() 函数是将所播放的图片的列号加1，如果循环onframe函数就变成了动画，
+            anime.onframe();
+        }
+    </script>
+    <script type="text/javascript">
+        init(150, 'sec_div', 300,300,main_sec);
+        function main_sec() {
+            loader_sec = new LLoader();
+            loader_sec.addEventListener(LEvent.COMPLETE, bitmapdata_sec);
+            loader_sec.load('image/chara.png', 'bitmapData');
+        }
+        function bitmapdata_sec() {
+            //图片显示的范围
+            var bitmapdata_sec = new LBitmapData(loader_sec.content, 0,0,64,64);
+            var list_sec = LGlobal.divideCoordinate(256,256,4,4);
+            layer_sec = new LSprite();
+            //对于动画  初始位置坐标
+            layer_sec.x = 100;
+            layer_sec.y = 100;
+            //怎么用？
+            layer_sec.graphics.drawRect(1, '#cc0000', [100,0,500,500], true, '#cccccc')
+            addChild(layer_sec);
+            anime_sec = new LAnimation(layer_sec, bitmapdata_sec, list_sec);
+            layer_sec.addEventListener(LEvent.ENTER_FRAME, onframe_sec);
+        }
+        function onframe_sec() {
+            //setAction(rowIndex, colIndex)  行号   列号   只要改变行号 列号可以省略
+            var action = anime_sec.getAction();
+            switch (action[0]) {
+                case 0 :
+                    layer_sec.y += 5;
+                    if(layer_sec.y >= 200) {
+                        anime_sec.setAction(2);
+                    }
+                    break;
+                case 1 :
+                    layer_sec.x -= 5;
+                    if(layer_sec.x <= 0) {
+                        anime_sec.setAction(0);
+                    }
+                    break;
+                case 2 :
+                    layer_sec.x += 5;
+                    if(layer_sec.x >= 200) {
+                        anime_sec.setAction(3);
+                    }
+                    break;
+                case 3 :
+                    layer_sec.y -= 5;
+                    if(layer_sec.y <= 0) {
+                        anime_sec.setAction(1);
+                    }
+                    break;
+            }
+            anime_sec.onframe();
+        }
+    </script>
+</head>
+<body>
+<div id="fir_div">loading........</div>
+<div id="sec_div">loading........</div>
+</body>
+
+</html>
